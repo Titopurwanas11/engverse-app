@@ -1,4 +1,6 @@
-# engverse
+# ENGVERSE APP
+Engverse adalah platform pembelajaran berbasis web yang dirancang untuk membantu pengguna dalam meningkatkan kemampuan bahasa Inggris mereka secara adaptif, khususnya dalam konteks persiapan TOEFL ITP.
+
 # Group ID : CC25-CF279
 | Student ID     | Name                       | Email                                      | Learning Path                    |
 |----------------|----------------------------|--------------------------------------------|----------------------------------|
