@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const app = new App({
     content: document.querySelector('#main-content'),
-    header: document.querySelector('#app-header'),
+    header: document.querySelector('header-app'),
   });
   await app.renderPage();
 

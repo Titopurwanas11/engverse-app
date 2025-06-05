@@ -1,7 +1,8 @@
 import routes from '../routes/routes';
 import { getActiveRoute } from '../routes/url-parser';
 import { getAccessToken } from '../models/auth';
-import Header, { setupDropdownToggle } from '../components/header';
+import Header from '../components/header';
+import IconSvg from '../components/icons';
 
 class App {
   #content = null;
@@ -10,10 +11,9 @@ class App {
   constructor({ content, header }) {
     this.#content = content;
     this.#header = header;
-
   }
-  shouldShowHeader(url, isLoggedIn) {
-    const noHeaderPages = ['/login', '/register'];
+  showHeader(url, isLoggedIn) {
+    const noHeaderPages = ['/login', '/register', '/quiz', '/result'];
     if (noHeaderPages.includes(url)) return false;
     return isLoggedIn;
   }
@@ -24,16 +24,16 @@ class App {
     console.log('url:', url, 'page:', page);
 
     const isLoggedIn = !!getAccessToken();
-    const currentRoute = location.hash;
+    const userData = {
+      name: 'Tasyaaaa',
+      email: 'tasya@example.com',
+    };
 
     if (this.#header) {
-      if (this.shouldShowHeader(url, isLoggedIn)) {
-        this.#header.innerHTML = Header({
-          avatarUrl: 'https://h-o-m-e.org/wp-content/uploads/2022/04/Blank-Profile-Picture-1.jpg',
-          name: 'Tasyyaaa',
-          activeRoute: currentRoute,
-        });
-        setupDropdownToggle();
+      if (this.showHeader(url, isLoggedIn)) {
+        this.#header.innerHTML = `
+          <header-app name="${userData.name}" email="${userData.email}"></header-app>
+        `;
       } else {
         this.#header.innerHTML = '';
       }

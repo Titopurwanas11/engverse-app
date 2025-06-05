@@ -34,7 +34,7 @@ export default class LoginPage {
                 required>
             </div>
 
-            <div id="submit-button-container">
+            <div id="login-btn-container">
               <button class="btn w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition" type="submit">
                 Login
               </button>
@@ -52,7 +52,6 @@ export default class LoginPage {
     </section>
   `;
 }
-
 
   async afterRender() {
     this.#presenter = new LoginPresenter({
@@ -78,8 +77,7 @@ export default class LoginPage {
     });
   }
 
-  loginSuccessfully(message) {
-    alert(message);
+  loginSuccessfully() {
     location.hash = '/dashboard';
   }
 
@@ -88,15 +86,15 @@ export default class LoginPage {
   }
 
   showSubmitLoadingButton() {
-    document.getElementById('submit-button-container').innerHTML = `
+    document.getElementById('login-btn-container').innerHTML = `
       <button class="btn w-full bg-gray-400 text-white py-2 rounded cursor-not-allowed" type="submit" disabled>
-        <i class="fas fa-spinner fa-spin"></i> Login...
+        <i class="fas fa-spinner fa-spin"></i>
       </button>
     `;
   }
 
   hideSubmitLoadingButton() {
-    document.getElementById('submit-button-container').innerHTML = `
+    document.getElementById('login-btn-container').innerHTML = `
       <button class="btn w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition" type="submit">
         Login
       </button>

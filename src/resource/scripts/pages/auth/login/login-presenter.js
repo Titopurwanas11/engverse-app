@@ -22,7 +22,7 @@ export default class LoginPresenter {
             const fakeToken = 'fake-access-token-123';
 
             this.#authModel.putAccessToken(fakeToken);
-            this.#view.loginSuccessfully('Successfully logged in!');
+            this.#view.loginSuccessfully();
         } catch (error) {
             this.#view.loginFailed(error.message);
         } finally {
