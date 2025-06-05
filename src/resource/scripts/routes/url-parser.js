@@ -22,7 +22,10 @@ function constructRouteFromSegments(pathSegments) {
 }
 
 export function getActivePathname() {
-  return location.hash.replace('#', '') || '/';
+  // return location.hash.replace('#', '') || '/';
+  const fullPath = location.hash.replace('#', '') || '/';
+  const [path] = fullPath.split('?');
+  return path;
 }
 
 export function getActiveRoute() {
@@ -43,4 +46,18 @@ export function getRoute(pathname) {
 
 export function parsePathname(pathname) {
   return extractPathnameSegments(pathname);
+}
+
+export function getQueryParams() {
+  const fullPath = location.hash.replace('#', '') || '/';
+  const [, queryString] = fullPath.split('?');
+  if (!queryString) return {};
+
+  return queryString
+    .split('&')
+    .map(param => param.split('='))
+    .reduce((acc, [key, value]) => {
+      acc[key] = decodeURIComponent(value);
+      return acc;
+    }, {});
 }
