@@ -169,9 +169,9 @@ export default class ResultPage {
             </div>
 
             <div class="p-6 bg-gray-50 flex flex-col sm:flex-row gap-3">
-                <button class="flex-1 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition flex items-center justify-center gap-2">
+                <a href="#/dashboard" class="flex-1 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition flex items-center justify-center gap-2">
                     <i class="fas fa-book-open"></i> Back to Dashboard
-                </button>
+                </a>
                 <button class="flex-1 py-3 border border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 transition flex items-center justify-center gap-2">
                     <i class="fas fa-redo"></i> Try Again
                 </button>
