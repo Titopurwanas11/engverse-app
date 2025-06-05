@@ -7,23 +7,31 @@ export default class QuizPage {
   #timeRemaining = 20 * 60;
   #answeredQuestions = new Set();
   #answers = {};
+  section = 'reading';
 
   constructor() {
+    this.section = this.#getSectionFromURL();
     this.#presenter = new QuizPagePresenter({
       view: this,
-      model: new MockQuizModel(),
+      model: new MockQuizModel(this.section),
     });
+  }
+
+  #getSectionFromURL() {
+    const hash = window.location.hash; // #/quiz?section=reading
+    const query = hash.split('?')[1];
+    const params = new URLSearchParams(query);
+    return params.get('section') || 'reading';
   }
 
   async render() {
     return `
       <section class="container mx-auto px-4 py-8">
-        <div class="flex justify-between items-center mb-6">
-          <button class="text-blue-600 font-semibold">&larr; Back</button>
-          <div class="text-right text-blue-600 font-semibold text-sm">
-            Timer <span id="timer" class="ml-2 bg-gray-100 border border-blue-400 px-2 py-1 rounded">20:00</span>
-          </div>
+        <div class="text-right text-blue-600 font-semibold text-sm mb-6">
+          Timer <span id="timer" class="ml-2 bg-gray-100 border border-blue-400 px-2 py-1 rounded">20:00</span>
         </div>
+
+        <h2 class="text-xl font-bold mb-4 text-center text-blue-700"> PRACTICE - ${this.section.toUpperCase()}</h2>
 
         <div class="grid grid-cols-3 gap-4">
           <div class="col-span-1">
@@ -33,7 +41,6 @@ export default class QuizPage {
                 <!-- Navigation Buttons -->
               </div>
             </div>
-            <button class="bg-blue-600 text-white font-semibold px-4 py-2 rounded">Back</button>
           </div>
 
           <div class="col-span-2 flex flex-col space-y-4">
@@ -61,10 +68,10 @@ export default class QuizPage {
   async afterRender() {
     this.#presenter.start();
     this.#startTimer();
-     this.bindNavigation(
-    () => this.#presenter.prevQuestion(),
-    () => this.#presenter.nextQuestion()
-  );
+    this.bindNavigation(
+      () => this.#presenter.prevQuestion(),
+      () => this.#presenter.nextQuestion()
+    );
   }
 
   #startTimer() {
@@ -76,6 +83,7 @@ export default class QuizPage {
         clearInterval(this.#timerInterval);
         timerEl.textContent = "00:00";
         alert("Time's up! Submitting quiz...");
+        window.location.hash = '#/result';
         return;
       }
 
@@ -168,6 +176,7 @@ export default class QuizPage {
 
       if (nextBtn.textContent === "Submit") {
         alert("Quiz submitted!");
+        window.location.hash = '#/result';
         clearInterval(this.#timerInterval);
         console.log("Answers:", this.#answers);
         return;
