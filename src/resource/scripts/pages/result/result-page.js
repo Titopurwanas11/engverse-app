@@ -1,7 +1,11 @@
 export default class ResultPage {
   async render() {
     return `
-      <section class="container mx-auto px-4 py-8 max-w-4xl">
+    <a href="#/dashboard" class="fixed top-5 right-10 z-50 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center cursor-pointer transition-all hover:bg-gray-100 hover:scale-110">
+        <i class="fas fa-times text-gray-600 text-xl"></i>
+    </a>
+    
+    <section class="container mx-auto px-4 py-8 max-w-4xl">
         <div class="bg-white rounded-xl shadow-sm overflow-hidden">
             <div class="bg-gradient-to-r from-indigo-600 to-blue-600 px-6 py-8 text-white text-center">
                 <div class="max-w-md mx-auto">
@@ -24,7 +28,7 @@ export default class ResultPage {
             </div>
 
             <div class="p-6 border-b">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                     <div class="text-center">
                         <p class="text-gray-500 text-sm">Time Spent</p>
                         <p class="text-xl font-bold">12:45</p>
@@ -40,16 +44,10 @@ export default class ResultPage {
                         <p class="text-xl font-bold text-red-600">2</p>
                         <p class="text-xs text-gray-500">questions</p>
                     </div>
-                    <div class="text-center">
-                        <p class="text-gray-500 text-sm">Avg Time</p>
-                        <p class="text-xl font-bold">1:17</p>
-                        <p class="text-xs text-gray-500">per question</p>
-                    </div>
                 </div>
             </div>
 
             <div class="p-6">
-
                 <div class="question-card mb-6 p-4 border rounded-lg">
                     <div class="flex justify-between items-start mb-3">
                         <div>
@@ -139,36 +137,9 @@ export default class ResultPage {
                             "while" that indicate balanced importance.</p>
                     </div>
                 </div>
-
-                <div class="p-4 bg-purple-50 rounded-lg border border-purple-200">
-                    <h3 class="font-bold text-purple-700 flex items-center gap-2 mb-2">
-                        <i class="fas fa-lightbulb"></i>
-                        <span>How to Improve</span>
-                    </h3>
-                    <div class="space-y-3">
-                        <div class="flex items-start gap-3">
-                            <div class="mt-1 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-xs">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <p class="text-gray-700"><span class="font-medium">You're good at:</span> Finding direct information in the text (7/8 correct)</p>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="mt-1 w-5 h-5 rounded-full bg-red-100 flex items-center justify-center text-red-600 text-xs">
-                                <i class="fas fa-bolt"></i>
-                            </div>
-                            <p class="text-gray-700"><span class="font-medium">Focus on:</span> Inference questions (missed 1/2) - practice reading between the lines</p>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="mt-1 w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xs">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <p class="text-gray-700"><span class="font-medium">Timing:</span> You spent 2x longer on incorrect questions. Try skimming first before deep reading.</p>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            <div class="p-6 bg-gray-50 flex flex-col sm:flex-row gap-3">
+            <div class="p-6 flex flex-col sm:flex-row gap-3">
                 <a href="#/dashboard" class="flex-1 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition flex items-center justify-center gap-2">
                     <i class="fas fa-book-open"></i> Back to Dashboard
                 </a>
