@@ -13,7 +13,7 @@ class App {
     this.#header = header;
   }
   showHeader(url, isLoggedIn) {
-    const noHeaderPages = ['/login', '/register', '/quiz', '/result'];
+    const noHeaderPages = ['/login', '/register', '/reading', '/result', '/listening', '/structure'];
     if (noHeaderPages.includes(url)) return false;
     return isLoggedIn;
   }

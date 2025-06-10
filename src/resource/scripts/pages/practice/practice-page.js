@@ -56,11 +56,13 @@ export default class PracticePage {
   }
 
   async afterRender() {
-    document.querySelectorAll(".start-btn").forEach(button => {
-      button.addEventListener("click", () => {
-        const section = button.getAttribute("data-section");
-        window.location.hash = `#/quiz?section=${section}`;
-      });
+  document.querySelectorAll(".start-btn").forEach(button => {
+    button.addEventListener("click", () => {
+      const section = button.getAttribute("data-section");
+      window.location.hash = `#/${section}`; // langsung sesuai route
     });
-  }
+  });
+}
+
+
 }
