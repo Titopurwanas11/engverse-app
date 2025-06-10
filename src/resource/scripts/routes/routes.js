@@ -2,8 +2,10 @@ import LoginPage from '../pages/auth/login/login-page';
 import RegisterPage from '../pages/auth/register/register-page';
 import DashboardPage from '../pages/dashboard/dashboard-page';
 import PracticePage from '../pages/practice/practice-page';
-import QuizPage from '../pages/quiz-page/quiz-page';
+import ReadingPage from '../pages/quiz-page/reading-page';
 import ResultPage from '../pages/result/result-page';
+import ListeningPage from '../pages/quiz-page/listening-page';
+import StructurePage from '../pages/quiz-page/structure-page';
 
 const routes = {
   '/login': new LoginPage(),
@@ -11,7 +13,9 @@ const routes = {
   
   '/dashboard': new DashboardPage(),
   '/practice': new PracticePage(),
-  '/quiz': new QuizPage(),
+  '/reading': new ReadingPage(),
+  '/listening': new ListeningPage(),
+  '/structure': new StructurePage(),
   '/result': new ResultPage(),
 };
 
