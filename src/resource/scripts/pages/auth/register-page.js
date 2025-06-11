@@ -1,4 +1,4 @@
-import RegisterPresenter from './register-presenter';
+import RegisterPresenter from '../../presenters/register-presenter';
 
 export default class RegisterPage {
   #presenter = null;

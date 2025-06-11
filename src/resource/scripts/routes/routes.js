@@ -1,11 +1,11 @@
-import LoginPage from '../pages/auth/login/login-page';
-import RegisterPage from '../pages/auth/register/register-page';
+import LoginPage from '../pages/auth/login-page';
+import RegisterPage from '../pages/auth/register-page';
 import DashboardPage from '../pages/dashboard/dashboard-page';
 import PracticePage from '../pages/practice/practice-page';
-import ReadingPage from '../pages/quiz-page/reading-page';
 import ResultPage from '../pages/result/result-page';
-import ListeningPage from '../pages/quiz-page/listening-page';
-import StructurePage from '../pages/quiz-page/structure-page';
+import ReadingPage from '../pages/quiz/reading-page';
+import ListeningPage from '../pages/quiz/listening-page';
+import StructurePage from '../pages/quiz/structure-page';
 
 const routes = {
   '/login': new LoginPage(),

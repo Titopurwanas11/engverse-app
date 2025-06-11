@@ -1,6 +1,5 @@
-import LoginPresenter from './login-presenter';
-// import * as EngverseAPI from '../../../data/api';
-import * as AuthModel from '../../../models/auth';
+import LoginPresenter from '../../presenters/login-presenter';
+import * as AuthModel from '../../models/auth-model';
 
 export default class LoginPage {
   #presenter = null;
@@ -56,8 +55,7 @@ export default class LoginPage {
   async afterRender() {
     this.#presenter = new LoginPresenter({
       view: this,
-    //   model: EngverseAPI,
-      authModel: AuthModel,
+      model: AuthModel,
     });
 
     this.#setupForm();

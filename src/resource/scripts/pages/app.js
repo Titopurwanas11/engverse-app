@@ -1,6 +1,6 @@
 import routes from '../routes/routes';
 import { getActiveRoute } from '../routes/url-parser';
-import { getAccessToken } from '../models/auth';
+import { getAccessToken } from '../models/auth-model';
 import Header from '../components/header';
 import IconSvg from '../components/icons';
 
@@ -12,31 +12,41 @@ class App {
     this.#content = content;
     this.#header = header;
   }
-  showHeader(url, isLoggedIn) {
-    const noHeaderPages = ['/login', '/register', '/reading', '/result', '/listening', '/structure'];
-    if (noHeaderPages.includes(url)) return false;
-    return isLoggedIn;
-  }
 
   async renderPage() {
     const url = getActiveRoute();
     const page = routes[url];
-    console.log('url:', url, 'page:', page);
 
-    const isLoggedIn = !!getAccessToken();
-    const userData = {
-      name: 'Tasyaaaa',
-      email: 'tasya@example.com',
-    };
+    const token = getAccessToken();
+    const protectedRoutes = [
+      '/dashboard',
+      '/practice',
+      '/reading',
+      '/listening',
+      '/structure',
+      '/result',
+    ];
 
-    if (this.#header) {
-      if (this.showHeader(url, isLoggedIn)) {
-        this.#header.innerHTML = `
-          <header-app name="${userData.name}" email="${userData.email}"></header-app>
-        `;
+    if (protectedRoutes.includes(url) && !token) {
+      location.hash = '#/login';
+      return;
+    }
+
+    const pagesWithHeader = ['/dashboard', '/practice'];
+    const headerElement = document.querySelector('header-app');
+
+    if (headerElement) {
+      if (pagesWithHeader.includes(url)) {
+        headerElement.style.display = 'block';
       } else {
-        this.#header.innerHTML = '';
+        headerElement.style.display = 'none';
       }
+    }
+
+    const publicRoutes = ['/login', '/register'];
+    if (publicRoutes.includes(url) && token) {
+      location.hash = '#/dashboard';
+      return;
     }
 
     this.#content.innerHTML = await page.render();
