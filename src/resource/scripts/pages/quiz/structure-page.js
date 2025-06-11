@@ -1,5 +1,5 @@
-import QuizPagePresenter from "../../presenters/quiz-page-presenter";
-import MockQuizModel from "../../data/mock-quiz-model";
+import QuizPagePresenter from "../../presenters/quiz-presenter";
+import MockQuizModel from "../../models/quiz-model";
 
 export default class StructurePage {
   #presenter;
@@ -30,9 +30,10 @@ export default class StructurePage {
       <!-- Header: Section name and Timer -->
       <div class="flex justify-between items-center mb-6">
         <span class="bg-blue-100 text-blue-600 px-4 py-1 rounded-full font-medium shadow-sm">
-          ${this.section === 'structure' ? 'Structure and Written Expression' : 'Practice - ' + this.section.toUpperCase()}
-        </span>
-        <span id="timer" class="border border-blue-400 text-blue-600 px-4 py-1 rounded-full font-semibold text-sm">20:00</span>
+            ${this.section === 'structure' ? 'Structure and Written Expression' : this.section.toUpperCase()}
+          </span>
+          <span id="timer" class="border border-blue-400 text-blue-600 px-4 py-1 rounded-full font-semibold text-sm">20:00</span>
+        </div>
       </div>
 
       <!-- Navigation Numbers -->

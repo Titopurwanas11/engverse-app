@@ -1,5 +1,5 @@
-import QuizPagePresenter from "../../presenters/quiz-page-presenter";
-import MockQuizModel from "../../data/mock-quiz-model";
+import QuizPagePresenter from "../../presenters/quiz-presenter";
+import QuizModel from "../../models/quiz-model";
 
 export default class ReadingPage {
   #presenter;
@@ -13,12 +13,12 @@ export default class ReadingPage {
     this.section = this.#getSectionFromURL();
     this.#presenter = new QuizPagePresenter({
       view: this,
-      model: new MockQuizModel(this.section),
+      model: new QuizModel(this.section),
     });
   }
 
   #getSectionFromURL() {
-    const hash = window.location.hash; // #/quiz?section=reading
+    const hash = window.location.hash;
     if (!hash.includes("?")) return "reading";
     const query = hash.split("?")[1];
     const params = new URLSearchParams(query);
@@ -29,8 +29,10 @@ export default class ReadingPage {
     return `
       <section class="container mx-auto px-4 py-6">
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-lg font-semibold text-blue-700 bg-blue-100 px-4 py-1 rounded-full">Reading Comprehension</h2>
-          <div id="timer" class="text-blue-700 border border-blue-500 px-3 py-1 rounded-full font-medium text-sm">20:00</div>
+          <span class="bg-blue-100 text-blue-600 px-4 py-1 rounded-full font-medium shadow-sm">
+            ${this.section === 'reading' ? 'Reading Comprehension' : this.section.toUpperCase()}
+          </span>
+          <span id="timer" class="border border-blue-400 text-blue-600 px-4 py-1 rounded-full font-semibold text-sm">20:00</span>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -114,9 +116,8 @@ export default class ReadingPage {
     const answerStatus = document.getElementById("answer-status");
     const optionsContainer = document.getElementById("options-container");
     const nextBtn = document.getElementById("next-btn");
-
-    // Show dynamic passage if available
     const passageEl = document.getElementById("reading-passage");
+
     if (quiz.passage) {
       passageEl.innerHTML = quiz.passage
         .split("\n")
@@ -128,13 +129,20 @@ export default class ReadingPage {
 
     questionNumber.textContent = `Question ${currentIndex + 1}`;
     questionText.textContent = `${quiz.question}`;
-    optionsContainer.innerHTML = quiz.options
+    const optionsArray = Array.isArray(quiz.options)
+      ? quiz.options
+      : Object.entries(quiz.options).map(([key, value]) => ({
+        key,
+        value,
+      }));
+
+    optionsContainer.innerHTML = optionsArray
       .map(
         (option) => `
       <label class="flex items-center space-x-2">
-        <input type="radio" name="option" value="${option}" class="accent-blue-600"
-          ${this.#answers[currentIndex] === option ? "checked" : ""} />
-        <span>${option}</span>
+        <input type="radio" name="option" value="${option.key}" class="accent-blue-600"
+          ${this.#answers[currentIndex] === option.key ? "checked" : ""} />
+        <span>${option.value}</span>
       </label>
     `
       )
@@ -166,13 +174,12 @@ export default class ReadingPage {
       const btn = document.createElement("button");
       btn.textContent = i + 1;
       btn.dataset.index = i;
-      btn.className = `w-8 h-8 rounded text-sm ${
-        i === currentIndex
-          ? "bg-blue-600 text-white"
-          : this.#answeredQuestions.has(i)
+      btn.className = `w-8 h-8 rounded text-sm ${i === currentIndex
+        ? "bg-blue-600 text-white"
+        : this.#answeredQuestions.has(i)
           ? "bg-blue-500 text-white"
           : "border border-blue-600 text-blue-600"
-      }`;
+        }`;
       btn.addEventListener("click", () => this.#presenter.goToQuestion(i));
       container.appendChild(btn);
     }
@@ -204,7 +211,7 @@ export default class ReadingPage {
         const currentIndex = this.#presenter.getCurrentIndex();
         const selectedValue = event.target.value;
 
-        if (quiz.options.includes(selectedValue)) {
+        if (quiz.options.hasOwnProperty(selectedValue)) {
           this.#answers[currentIndex] = selectedValue;
           this.#answeredQuestions.add(currentIndex);
 
