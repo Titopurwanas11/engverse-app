@@ -1,5 +1,5 @@
-import QuizPagePresenter from "../../presenters/quiz-page-presenter";
-import MockQuizModel from "../../data/mock-quiz-model";
+import QuizPagePresenter from "../../presenters/quiz-presenter";
+import MockQuizModel from "../../models/quiz-model";
 
 export default class ListeningPage {
   #presenter;
@@ -18,19 +18,19 @@ export default class ListeningPage {
   }
 
   #getSectionFromURL() {
-    const hash = window.location.hash; 
+    const hash = window.location.hash;
     const query = hash.split('?')[1];
     const params = new URLSearchParams(query);
     return params.get('section') || 'listening';
   }
 
   async render() {
-  return `
+    return `
     <section class="max-w-5xl mx-auto px-4 py-6">
       <!-- Header: Section name and Timer -->
       <div class="flex justify-between items-center mb-6">
         <span class="bg-blue-100 text-blue-600 px-4 py-1 rounded-full font-medium shadow-sm">
-          ${this.section === 'structure' ? 'Structure and Written Expression' : 'Practice - ' + this.section.toUpperCase()}
+          ${this.section === 'listening' ? 'Listening Comprehension' : this.section.toUpperCase()}
         </span>
         <span id="timer" class="border border-blue-400 text-blue-600 px-4 py-1 rounded-full font-semibold text-sm">20:00</span>
       </div>
@@ -39,6 +39,21 @@ export default class ListeningPage {
       <div class="flex justify-end mb-6">
         <div id="nav-buttons" class="flex gap-2 bg-white px-4 py-2 rounded-xl shadow">
           <!-- Navigation buttons will render here -->
+        </div>
+      </div>
+
+      <!-- Audio Player -->
+      <div id="audio-container" class="mb-6 bg-white border border-blue-200 rounded-xl shadow p-4 flex items-center gap-4">
+        <div class="text-blue-600 bg-blue-100 p-3 rounded-full">
+          <icon-svg name="play_circle" class="h-6 w-6"></icon-svg>
+        </div>
+
+        <div class="flex-1">
+          <p class="text-sm font-medium text-gray-700 mb-1">Listen carefully to the audio</p>
+          <audio id="audio-player" controls class="w-full rounded">
+            <source src="path/to/audio.mp3" type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
         </div>
       </div>
 
@@ -66,7 +81,7 @@ export default class ListeningPage {
       </div>
     </section>
   `;
-}
+  }
 
 
   async afterRender() {
@@ -160,13 +175,12 @@ export default class ListeningPage {
       const btn = document.createElement("button");
       btn.textContent = i + 1;
       btn.dataset.index = i;
-      btn.className = `w-8 h-8 rounded text-sm ${
-        i === currentIndex
-          ? "bg-blue-600 text-white"
-          : this.#answeredQuestions.has(i)
+      btn.className = `w-8 h-8 rounded text-sm ${i === currentIndex
+        ? "bg-blue-600 text-white"
+        : this.#answeredQuestions.has(i)
           ? "bg-blue-500 text-white"
           : "border border-blue-600 text-blue-600"
-      }`;
+        }`;
       btn.addEventListener("click", () => this.#presenter.goToQuestion(i));
       container.appendChild(btn);
     }
