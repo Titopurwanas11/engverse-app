@@ -2,8 +2,6 @@ import { Card } from './cards';
 import { ScoreProgressionChart } from './chart';
 import { HistoryTestTable } from './table';
 
-
-
 export default class DashboardPage {
   async render() {
     return `

@@ -1,8 +1,18 @@
+import { getUserProfile, logoutAll } from '../models/auth-model';
+
 class HeaderApp extends HTMLElement {
 
   connectedCallback() {
-    const name = this.getAttribute('name') || 'Tasyyaaa';
-    const email = this.getAttribute('email') || 'tasya@example.com';
+    window.addEventListener('user-logged-in', () => {
+      this.#renderHeader();
+    });
+    this.#renderHeader();
+  }
+
+  #renderHeader() {
+    const user = getUserProfile();
+    const name = user?.name || 'Guest';
+    const email = user?.email || '-';
 
     this.innerHTML = `
     <header class="bg-white shadow-sm border border-gray-200 rounded-b-2xl">
@@ -56,7 +66,7 @@ class HeaderApp extends HTMLElement {
 
               <div class="border-t border-gray-200 my-3"></div>
 
-              <a href="#/login" id="logoutBtn"
+              <a href="#" id="logoutBtn"
                 class="w-full flex items-center justify-center gap-2 text-sm text-gray-600 hover:text-red-600 transition-colors">
                 <icon-svg name="logout" class="w-4 h-4"></icon-svg> Logout
               </a>
@@ -111,6 +121,17 @@ class HeaderApp extends HTMLElement {
       ) {
         dropdown.classList.add('hidden');
       }
+    });
+
+    logoutBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+
+      const confirmLogout = confirm('Are you sure you want to log out?');
+      if (!confirmLogout) return;
+      await logoutAll();
+      location.hash = '#/login';
+
+      window.dispatchEvent(new Event('user-logged-out'));
     });
   }
 }
