@@ -1,13 +1,13 @@
-import QuizPagePresenter from "./quiz-page-presenter";
+import QuizPagePresenter from "../../presenters/quiz-page-presenter";
 import MockQuizModel from "../../data/mock-quiz-model";
 
-export default class ReadingPage {
+export default class ListeningPage {
   #presenter;
   #timerInterval;
   #timeRemaining = 20 * 60;
   #answeredQuestions = new Set();
   #answers = {};
-  section = "reading";
+  section = 'listening';
 
   constructor() {
     this.section = this.#getSectionFromURL();
@@ -18,51 +18,56 @@ export default class ReadingPage {
   }
 
   #getSectionFromURL() {
-    const hash = window.location.hash; // #/quiz?section=reading
-    if (!hash.includes("?")) return "reading";
-    const query = hash.split("?")[1];
+    const hash = window.location.hash; 
+    const query = hash.split('?')[1];
     const params = new URLSearchParams(query);
-    return params.get("section") || "reading";
+    return params.get('section') || 'listening';
   }
 
   async render() {
-    return `
-      <section class="container mx-auto px-4 py-6">
-        <div class="flex justify-between items-center mb-4">
-          <h2 class="text-lg font-semibold text-blue-700 bg-blue-100 px-4 py-1 rounded-full">Reading Comprehension</h2>
-          <div id="timer" class="text-blue-700 border border-blue-500 px-3 py-1 rounded-full font-medium text-sm">20:00</div>
+  return `
+    <section class="max-w-5xl mx-auto px-4 py-6">
+      <!-- Header: Section name and Timer -->
+      <div class="flex justify-between items-center mb-6">
+        <span class="bg-blue-100 text-blue-600 px-4 py-1 rounded-full font-medium shadow-sm">
+          ${this.section === 'structure' ? 'Structure and Written Expression' : 'Practice - ' + this.section.toUpperCase()}
+        </span>
+        <span id="timer" class="border border-blue-400 text-blue-600 px-4 py-1 rounded-full font-semibold text-sm">20:00</span>
+      </div>
+
+      <!-- Navigation Numbers -->
+      <div class="flex justify-end mb-6">
+        <div id="nav-buttons" class="flex gap-2 bg-white px-4 py-2 rounded-xl shadow">
+          <!-- Navigation buttons will render here -->
+        </div>
+      </div>
+
+      <!-- Question Card -->
+      <div class="bg-blue-100 p-6 rounded-xl shadow space-y-6">
+        <!-- Question Number and Answer Status -->
+        <div class="flex justify-between items-center mb-2">
+          <p id="question-number" class="font-semibold text-blue-800">Question 1</p>
+          <p id="answer-status" class="text-sm text-gray-600">Not yet answered</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Left: Reading Passage -->
-          <div class="bg-white p-6 rounded shadow-md text-gray-700 text-sm leading-relaxed space-y-4" id="reading-passage">
-            <p>Loading passage...</p>
-          </div>
-
-          <!-- Right: Question + Navigation -->
-          <div class="space-y-4">
-            <div class="flex justify-end mb-6">
-              <div id="nav-buttons" class="flex gap-2 bg-white px-4 py-2 rounded-xl shadow">
-                <!-- Navigation buttons will render here -->
-              </div>
-            </div>
-
-            <div class="bg-blue-100 p-6 rounded-xl shadow space-y-6">
-              <p class="font-semibold" id="question-number">Question</p>
-              <p class="font-semibold" id="question-text">Loading question...</p>
-              <div id="options-container" class="space-y-2"></div>
-              <div id="answer-status" class="text-sm italic text-gray-600"></div>
-            </div>
-
-            <div class="flex justify-between">
-              <button id="prev-btn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded font-semibold">Previous</button>
-              <button id="next-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-semibold">Next</button>
-            </div>
-          </div>
+        <!-- Question Text -->
+        <div>
+          <p class="text-lg font-medium text-black" id="question-text">Loading...</p>
         </div>
-      </section>
-    `;
-  }
+
+        <!-- Options -->
+        <div class="space-y-2" id="options-container"></div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between mt-4">
+          <button id="prev-btn" class="bg-blue-500 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-600 transition">Previous</button>
+          <button id="next-btn" class="bg-blue-600 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-700 transition">Next</button>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 
   async afterRender() {
     this.#presenter.start();
@@ -82,7 +87,7 @@ export default class ReadingPage {
         clearInterval(this.#timerInterval);
         timerEl.textContent = "00:00";
         alert("Time's up! Submitting quiz...");
-        window.location.hash = "#/result";
+        window.location.hash = '#/result';
         return;
       }
 
@@ -114,17 +119,6 @@ export default class ReadingPage {
     const answerStatus = document.getElementById("answer-status");
     const optionsContainer = document.getElementById("options-container");
     const nextBtn = document.getElementById("next-btn");
-
-    // Show dynamic passage if available
-    const passageEl = document.getElementById("reading-passage");
-    if (quiz.passage) {
-      passageEl.innerHTML = quiz.passage
-        .split("\n")
-        .map((p) => `<p>${p.trim()}</p>`)
-        .join("");
-    } else {
-      passageEl.innerHTML = `<p class="text-gray-400 italic">No passage provided for this question.</p>`;
-    }
 
     questionNumber.textContent = `Question ${currentIndex + 1}`;
     questionText.textContent = `${quiz.question}`;
@@ -186,7 +180,7 @@ export default class ReadingPage {
 
       if (nextBtn.textContent === "Submit") {
         alert("Quiz submitted!");
-        window.location.hash = "#/result";
+        window.location.hash = '#/result';
         clearInterval(this.#timerInterval);
         console.log("Answers:", this.#answers);
         return;
@@ -214,7 +208,7 @@ export default class ReadingPage {
           if (this.#answeredQuestions.size === this.#presenter.getQuizCount()) {
             nextBtn.textContent = "Submit";
             nextBtn.classList.remove("bg-blue-600");
-            nextBtn.classList.add("bg-green-600");
+            nextBtn.classList.add("bg-blue-600");
           }
 
           this.#renderNavButtons(this.#presenter.getQuizCount(), currentIndex);

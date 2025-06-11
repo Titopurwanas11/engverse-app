@@ -1,4 +1,4 @@
-import QuizPagePresenter from "./quiz-page-presenter";
+import QuizPagePresenter from "../../presenters/quiz-page-presenter";
 import MockQuizModel from "../../data/mock-quiz-model";
 
 export default class StructurePage {

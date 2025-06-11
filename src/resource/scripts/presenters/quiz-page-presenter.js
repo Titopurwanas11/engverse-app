@@ -1,4 +1,4 @@
-import { quizMapper } from "../../data/quiz-mapper";
+import { quizMapper } from "../data/quiz-mapper";
 
 export default class QuizPagePresenter {
   #view;
