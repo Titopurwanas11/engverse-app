@@ -1,9 +1,11 @@
+import { register } from '../data/api'; 
+
 export default class RegisterPresenter {
   constructor(view) {
     this.view = view;
   }
 
-  handleRegister({ name, email, password, confirmPassword }) {
+  async handleRegister({ name, email, password, confirmPassword }) {
     this.view.clearError();
 
     if (!name || !email || !password || !confirmPassword) {
@@ -18,8 +20,11 @@ export default class RegisterPresenter {
       return this.view.showError('Passwords do not match.');
     }
 
-    // Simulasi register berhasil
-    console.log('Register data:', { name, email, password });
-    this.view.showSuccess();
+    try {
+      await register({ name, email, password });
+      this.view.showSuccess();
+    } catch (error) {
+      this.view.showError(error.message || 'Registration failed. Please try again.');
+    }
   }
 }
